@@ -8,8 +8,8 @@ For persanal use! Read all script before running them!
 On an Arch-based distribution as root, run the following:
 
 ```
-curl -LO larbs.xyz/larbs.sh
-sh larbs.sh
+wget https://raw.githubusercontent.com/koloika55/archpost-install/main/archinstall.sh
+sh archinstall.sh
 ```
 
 That's it.
