@@ -4,6 +4,7 @@
 
 dotfilesrepo="https://github.com/koloika55/dotfiles.git"
 progsfile="https://raw.githubusercontent.com/koloika55/archpost-install/main/progs.csv"
+progsfilerunit="https://raw.githubusercontent.com/koloika55/archpost-install/main/progs-runit.csv"
 aurhelper="yay"
 repobranch="main"
 export TERM=ansi
@@ -166,6 +167,24 @@ installationloop() {
 	done </tmp/progs.csv
 }
 
+installationlooprunit() {
+	([ -f "$progsfilerunit" ] && cp "$progsfilerunit" /tmp/progs-runit.csv) ||
+		curl -Ls "$progsfilerunit" | sed '/^#/d' >/tmp/progs-runit.csv
+	total=$(wc -l </tmp/progs-runit.csv)
+	aurinstalled=$(pacman -Qqm)
+	while IFS=, read -r tag program comment; do
+		n=$((n + 1))
+		echo "$comment" | grep -q "^\".*\"$" &&
+			comment="$(echo "$comment" | sed -E "s/(^\"|\"$)//g")"
+		case "$tag" in
+		"A") aurinstall "$program" "$comment" ;;
+		"G") gitmakeinstall "$program" "$comment" ;;
+		"P") pipinstall "$program" "$comment" ;;
+		*) maininstall "$program" "$comment" ;;
+		esac
+	done </tmp/progs-runit.csv
+}
+
 putgitrepo() {
 	# Downloads a gitrepo $1 and places the files in $2 only overwriting conflicts
 	whiptail --infobox "Downloading and installing config files..." 7 60
@@ -309,6 +328,7 @@ $aurhelper -Y --save --devel
 # and all build dependencies are installed.
 installationloop
 
+installationlooprunit
 # Install the dotfiles in the user's home directory, but remove .git dir and
 # other unnecessary files.
 putgitrepo "$dotfilesrepo" "/home/$name" "$repobranch"
