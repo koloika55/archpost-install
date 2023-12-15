@@ -3,7 +3,7 @@
 ### OPTIONS AND VARIABLES ###
 
 dotfilesrepo="https://github.com/koloika55/dotfiles.git"
-progsfile="https://github.com/koloika55/archpost-install/blob/main/progs.csv"
+progsfile="https://raw.githubusercontent.com/koloika55/archpost-install/main/progs.csv"
 aurhelper="yay-bin"
 repobranch="main"
 export TERM=ansi
