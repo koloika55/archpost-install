@@ -3,9 +3,9 @@
 ### OPTIONS AND VARIABLES ###
 
 dotfilesrepo="https://github.com/koloika55/dotfiles.git"
-progsfile="https://raw.githubusercontent.com/LukeSmithxyz/LARBS/master/static/progs.csv"
+progsfile="https://raw.githubusercontent.com/koloika55/archpost-install/main/static/progs.csv"
 aurhelper="yay"
-repobranch="master"
+repobranch="main"
 export TERM=ansi
 
 ### FUNCTIONS ###
