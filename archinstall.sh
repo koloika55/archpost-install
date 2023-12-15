@@ -377,5 +377,7 @@ echo "Defaults editor=/usr/bin/nvim" >/etc/sudoers.d/02-koloika55-visudo-editor
 mkdir -p /etc/sysctl.d
 echo "kernel.dmesg_restrict = 0" > /etc/sysctl.d/dmesg.conf
 
+sudo rm -rf ~/.bash*
+
 # Last message! Install complete!
 finalize
