@@ -3,8 +3,8 @@
 ### OPTIONS AND VARIABLES ###
 
 dotfilesrepo="https://github.com/koloika55/dotfiles.git"
-progsfile="https://raw.githubusercontent.com/koloika55/archpost-install/main/static/progs.csv"
-aurhelper="yay"
+progsfile="https://github.com/koloika55/archpost-install/blob/main/progs.csv"
+aurhelper="yay-bin"
 repobranch="main"
 export TERM=ansi
 
@@ -98,14 +98,15 @@ manualinstall() {
 	pacman -Qq "$1" && return 0
 	whiptail --infobox "Installing \"$1\" manually." 7 50
 	sudo -u "$name" mkdir -p "$repodir/$1"
+	sudo chmod 777 "$repodir/$1"
 	sudo -u "$name" git -C "$repodir" clone --depth 1 --single-branch \
-		--no-tags -q "https://aur.archlinux.org/$1.git" "$repodir/$1" ||
+		--no-tags -q "https://aur.archlinux.org/$1.git" "$1" ||
 		{
 			cd "$repodir/$1" || return 1
 			sudo -u "$name" git pull --force origin master
 		}
 	cd "$repodir/$1" || exit 1
-	sudo -u "$name" -D "$repodir/$1" \
+	sudo -u "$name" \
 		makepkg --noconfirm -si >/dev/null 2>&1 || return 1
 }
 
