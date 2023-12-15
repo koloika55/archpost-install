@@ -4,7 +4,7 @@
 
 dotfilesrepo="https://github.com/koloika55/dotfiles.git"
 progsfile="https://raw.githubusercontent.com/koloika55/archpost-install/main/progs.csv"
-aurhelper="yay-bin"
+aurhelper="yay"
 repobranch="main"
 export TERM=ansi
 
