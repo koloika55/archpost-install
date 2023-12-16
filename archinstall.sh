@@ -165,6 +165,29 @@ installationloop() {
 		*) maininstall "$program" "$comment" ;;
 		esac
 	done </tmp/progs.csv
+
+case "$(readlink -f /sbin/init)" in
+	*runit*)
+
+	([ -f "$progsfilerunit" ] && cp "$progsfilerunit" /tmp/progs-runit.csv) ||
+		curl -Ls "$progsfilerunit" | sed '/^#/d' >/tmp/progs-runit.csv
+	total=$(wc -l </tmp/progs-runit.csv)
+	aurinstalled=$(pacman -Qqm)
+	while IFS=, read -r tag program comment; do
+		n=$((n + 1))
+		echo "$comment" | grep -q "^\".*\"$" &&
+			comment="$(echo "$comment" | sed -E "s/(^\"|\"$)//g")"
+		case "$tag" in
+		"A") aurinstall "$program" "$comment" ;;
+		"G") gitmakeinstall "$program" "$comment" ;;
+		"P") pipinstall "$program" "$comment" ;;
+		*) maininstall "$program" "$comment" ;;
+		esac
+	done </tmp/progs-runit.csv
+		;;
+	*)
+		;;
+	esac
 }
 
 installationlooprunit() {
@@ -328,7 +351,7 @@ $aurhelper -Y --save --devel
 # and all build dependencies are installed.
 installationloop
 
-installationlooprunit
+#installationlooprunit
 # Install the dotfiles in the user's home directory, but remove .git dir and
 # other unnecessary files.
 putgitrepo "$dotfilesrepo" "/home/$name" "$repobranch"

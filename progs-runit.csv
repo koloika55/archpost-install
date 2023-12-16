@@ -2,3 +2,4 @@
 ,mpd-runit,"mpd runit service."
 ,openssh-runit,"ssh runit service."
 ,rsync-runit,"rsync runit service."
+,dhcpcd-runit,"dhcp client runit service."
