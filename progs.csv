@@ -49,7 +49,7 @@ A,arkenfox-user.js,"provides hardened security settings for Firefox and Librewol
 ,xorg-xbacklight,"enables changing screen brightness levels."
 A,zsh-fast-syntax-highlighting,"provides syntax highlighting in the shell."
 ,zsh, "zsh shell."
-,zsh-completion, "zsh text completion."
+,zsh-completions, "zsh text completion."
 ,gdu, "explore your drive in a nice visual way."
 ,bleachbit, "cleaning utility."
 ,neofetch, "btw, I user Arch."

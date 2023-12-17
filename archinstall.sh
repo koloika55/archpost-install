@@ -190,23 +190,6 @@ case "$(readlink -f /sbin/init)" in
 	esac
 }
 
-installationlooprunit() {
-	([ -f "$progsfilerunit" ] && cp "$progsfilerunit" /tmp/progs-runit.csv) ||
-		curl -Ls "$progsfilerunit" | sed '/^#/d' >/tmp/progs-runit.csv
-	total=$(wc -l </tmp/progs-runit.csv)
-	aurinstalled=$(pacman -Qqm)
-	while IFS=, read -r tag program comment; do
-		n=$((n + 1))
-		echo "$comment" | grep -q "^\".*\"$" &&
-			comment="$(echo "$comment" | sed -E "s/(^\"|\"$)//g")"
-		case "$tag" in
-		"A") aurinstall "$program" "$comment" ;;
-		"G") gitmakeinstall "$program" "$comment" ;;
-		"P") pipinstall "$program" "$comment" ;;
-		*) maininstall "$program" "$comment" ;;
-		esac
-	done </tmp/progs-runit.csv
-}
 
 putgitrepo() {
 	# Downloads a gitrepo $1 and places the files in $2 only overwriting conflicts
@@ -259,7 +242,7 @@ Exec=/usr/local/lib/arkenfox-auto-update" > /etc/pacman.d/hooks/arkenfox.hook
 }
 
 installffaddons(){
-	addonlist="ublock-origin libredirect dark-readervimium"
+	addonlist="ublock-origin libredirect darkreader vimium"
 	addontmp="$(mktemp -d)"
 	trap "rm -fr $addontmp" HUP INT QUIT TERM PWR EXIT
 	IFS=' '
@@ -400,7 +383,7 @@ echo "Defaults editor=/usr/bin/nvim" >/etc/sudoers.d/02-koloika55-visudo-editor
 mkdir -p /etc/sysctl.d
 echo "kernel.dmesg_restrict = 0" > /etc/sysctl.d/dmesg.conf
 
-sudo rm -rf ~/.bash*
+sudo rm -rf /home/$name/.bash*
 
 # Last message! Install complete!
 finalize
