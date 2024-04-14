@@ -5,7 +5,6 @@ date: 2023-01-19T10:02:07-05:00
 
 st (the simple terminal) is a simple terminal.
 
-{{< img src=/pix/st.png link=/pix/st.png caption="Doesn't get simpler than this." class=normal >}}
 
 ## Running
 

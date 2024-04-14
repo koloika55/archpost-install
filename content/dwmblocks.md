@@ -5,8 +5,6 @@ date: 2023-01-19T09:15:59-05:00
 
 dwmblocks is the statusbar command which hosts many customizable and extensible modules.
 
-{{< img src="/pix/dwmblocks.png" class=normal link="/pix/dwmblocks.png" caption="dwmblocks and its weather forecast, doppler radar and Bitcoin price monitors open." >}}
-
 ## Using
 
 dwmblocks runs automatically when dwm starts, appearing as many modules in the top right, and will update as needed.

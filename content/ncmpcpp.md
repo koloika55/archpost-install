@@ -8,8 +8,6 @@ ncmpcpp is the main music player that interacts with the [music player daemon](/
 ncmpcpp stands for *NCurses Music Player Client ++*.
 Yes. I'm sorry it's unpronounceable, but it's the best at what it does...
 
-{{< img src="/pix/ncmpcpp-02.png" class=normal >}}
-
 ## Running
 
 Press <kbd>super + m</kbd>, or type `ncmpcpp` in the terminal.
@@ -27,7 +25,6 @@ Firstly, ncmpcpp has many different screens accessible through the number keys <
 - <kbd>s</kbd> -- detailed search.
 - <kbd>1</kbd> -- current playlist.
 
-{{< img src="/pix/ncmpcpp-03.png" class=normal >}}
 
 - <kbd>h</kbd>/<kbd>j</kbd>/<kbd>k</kbd>/<kbd>l</kbd> -- navigate the music library view or select directories and songs.
 - <kbd>enter</kbd> -- add selected to playlist and play now.

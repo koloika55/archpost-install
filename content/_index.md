@@ -3,7 +3,6 @@ title: "LARBS"
 layout: single
 ---
 
-{{< img src="/pix/larbs.png" class=normal >}}
 
 LARBS is an efficient shell script that will install a fully-featured tiling window manager-based system on any Arch or [Artix](https://artixlinux.org) Linux-based system, without any of the routine of manual post-install processes and configuration.
 

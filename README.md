@@ -1,7 +1,10 @@
 # koloika55 fork of LARBS
 
-Changed progs and dotfiles as well deleted all unnesesary things.
-For persanal use! Read all script before running them!
+My fork of LARBS.
+It will install my programms and configs onto any Arch or Artix linux machine.
+Script is still in development and I will implement more features.
+It is for persanal use! Read all scripts before running them!
+Some programs are system dependent e.g. intel-ucode.
 
 ## Installation:
 
@@ -54,6 +57,13 @@ your programs file. LARBS will install from the top to the bottom.
 
 If you include commas in your program descriptions, be sure to include double
 quotes around the whole description to ensure correct parsing.
+
+### The `progs-runit.csv` or `progs-dinit.csv`  lists
+
+Aside from installing programs, script also will install needed init dependent
+script from the csv. Be aware that auto-enabling services isn't implemented yet,
+maybe in future. So after running the script you will need to enable services
+manually, referring to your init manual.
 
 ### The script itself
 
