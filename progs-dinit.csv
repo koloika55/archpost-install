@@ -1,0 +1,7 @@
+#TAG,NAME IN REPO (or git url),PURPOSE (should be a verb phrase to sound right while installing)
+,acpid-dinit,"acpid dinit service."
+,alsa-utils-dinit,"alsa dinit service."
+,chrony-dinit,"chrony dinit service."
+,openssh-dinit,"ssh dinit service."
+,rsync-dinit,"rsync dinit service."
+,transmission-dinit, "transmission dinit service."

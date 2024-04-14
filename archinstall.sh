@@ -5,7 +5,7 @@
 dotfilesrepo="https://github.com/koloika55/dotfiles.git"
 progsfile="https://raw.githubusercontent.com/koloika55/archpost-install/main/progs.csv"
 progsfilerunit="https://raw.githubusercontent.com/koloika55/archpost-install/main/progs-runit.csv"
-aurhelper="yay"
+aurhelper="paru"
 repobranch="main"
 export TERM=ansi
 
@@ -23,7 +23,7 @@ error() {
 
 welcomemsg() {
 	whiptail --title "Welcome!" \
-		--msgbox "Welcome to koloika55 Arch-based post-install sript. It will install WM and all programs and their configs that I use." 10 60
+		--msgbox "Welcome to koloika55 Arch-based post-install sript. It will install graphical interface and all programs and their configs that I use." 10 60
 
 	whiptail --title "Important Note!" --yes-button "All ready!" \
 		--no-button "Return..." \
@@ -66,10 +66,10 @@ adduserandpass() {
 	# Adds user `$name` with password $pass1.
 	whiptail --infobox "Adding user \"$name\"..." 7 50
 	useradd -m -g wheel -s /bin/zsh "$name" >/dev/null 2>&1 ||
-		usermod -a -G wheel "$name" && mkdir -p /home/"$name" && chown "$name":wheel /home/"$name"
+		usermod -a -G wheel "$name" && mkdir -p /home/"$name" && chown "$name":"$name" /home/"$name"
 	export repodir="/home/$name/.local/src"
 	mkdir -p "$repodir"
-	chown -R "$name":wheel "$(dirname "$repodir")"
+	chown -R "$name":"$name" "$(dirname "$repodir")"
 	echo "$name:$pass1" | chpasswd
 	unset pass1 pass2
 }
@@ -184,6 +184,26 @@ case "$(readlink -f /sbin/init)" in
 		*) maininstall "$program" "$comment" ;;
 		esac
 	done </tmp/progs-runit.csv
+
+
+case "$(readlink -f /sbin/init)" in
+	*dinit*)
+
+	([ -f "$progsfiledinit" ] && cp "$progsfiledinit" /tmp/progs-dinit.csv) ||
+		curl -Ls "$progsfiledinit" | sed '/^#/d' >/tmp/progs-dinit.csv
+	total=$(wc -l </tmp/progs-dinit.csv)
+	aurinstalled=$(pacman -Qqm)
+	while IFS=, read -r tag program comment; do
+		n=$((n + 1))
+		echo "$comment" | grep -q "^\".*\"$" &&
+			comment="$(echo "$comment" | sed -E "s/(^\"|\"$)//g")"
+		case "$tag" in
+		"A") aurinstall "$program" "$comment" ;;
+		"G") gitmakeinstall "$program" "$comment" ;;
+		"P") pipinstall "$program" "$comment" ;;
+		*) maininstall "$program" "$comment" ;;
+		esac
+	done </tmp/progs-dinit.csv
 		;;
 	*)
 		;;
@@ -197,7 +217,7 @@ putgitrepo() {
 	[ -z "$3" ] && branch="master" || branch="$repobranch"
 	dir=$(mktemp -d)
 	[ ! -d "$2" ] && mkdir -p "$2"
-	chown "$name":wheel "$dir" "$2"
+	chown "$name":"$name" "$dir" "$2"
 	sudo -u "$name" git -C "$repodir" clone --depth 1 \
 		--single-branch --no-tags -q --recursive -b "$branch" \
 		--recurse-submodules "$1" "$dir"
@@ -209,7 +229,7 @@ vimplugininstall() {
 	whiptail --infobox "Installing neovim plugins..." 7 60
 	mkdir -p "/home/$name/.config/nvim/autoload"
 	curl -Ls "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim" >  "/home/$name/.config/nvim/autoload/plug.vim"
-	chown -R "$name:wheel" "/home/$name/.config/nvim"
+	chown -R "$name:$name" "/home/$name/.config/nvim"
 	sudo -u "$name" nvim -c "PlugInstall|q|q"
 }
 
@@ -221,28 +241,11 @@ makeuserjs(){
 	ln -fs "/home/$name/.config/firefox/koloika55.js" "$overrides"
 	[ ! -f "$arkenfox" ] && curl -sL "https://raw.githubusercontent.com/arkenfox/user.js/master/user.js" > "$arkenfox"
 	cat "$arkenfox" "$overrides" > "$userjs"
-	chown "$name:wheel" "$arkenfox" "$userjs"
-	# Install the updating script.
-	mkdir -p /usr/local/lib /etc/pacman.d/hooks
-	cp "/home/$name/.local/bin/arkenfox-auto-update" /usr/local/lib/
-	chown root:root /usr/local/lib/arkenfox-auto-update
-	chmod 755 /usr/local/lib/arkenfox-auto-update
-	# Trigger the update when needed via a pacman hook.
-	echo "[Trigger]
-Operation = Upgrade
-Type = Package
-Target = firefox
-Target = librewolf
-Target = librewolf-bin
-[Action]
-Description=Update Arkenfox user.js
-When=PostTransaction
-Depends=arkenfox-user.js
-Exec=/usr/local/lib/arkenfox-auto-update" > /etc/pacman.d/hooks/arkenfox.hook
+	chown "$name:$name" "$arkenfox" "$userjs"
 }
 
 installffaddons(){
-	addonlist="ublock-origin libredirect darkreader vimium"
+	addonlist="ublock-origin  libredirect darkreader vimium-c"
 	addontmp="$(mktemp -d)"
 	trap "rm -fr $addontmp" HUP INT QUIT TERM PWR EXIT
 	IFS=' '
@@ -383,7 +386,7 @@ echo "Defaults editor=/usr/bin/nvim" >/etc/sudoers.d/02-koloika55-visudo-editor
 mkdir -p /etc/sysctl.d
 echo "kernel.dmesg_restrict = 0" > /etc/sysctl.d/dmesg.conf
 
-sudo rm -rf /home/$name/.bash*
+rm -rf /home/$name/.bash*
 
 # Last message! Install complete!
 finalize
