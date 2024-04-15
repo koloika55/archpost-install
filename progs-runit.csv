@@ -5,3 +5,4 @@
 ,openssh-runit,"ssh runit service."
 ,rsync-runit,"rsync runit service."
 ,transmission-runit, "transmission runit service."
+,wireguard-runit, "wireguard runit service."

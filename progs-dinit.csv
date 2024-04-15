@@ -5,3 +5,4 @@
 ,openssh-dinit,"ssh dinit service."
 ,rsync-dinit,"rsync dinit service."
 ,transmission-dinit, "transmission dinit service."
+,wireguard-dinit, "wireguard dinit service."
